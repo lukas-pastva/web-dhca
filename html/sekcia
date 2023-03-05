@@ -1,0 +1,7 @@
+<?
+
+  $tmp = explode('/', $_SERVER['REQUEST_URI']);
+  $_REQUEST['section'] = $tmp[count($tmp)-1];
+	include('index.php');
+
+?>

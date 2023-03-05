@@ -1,0 +1,9 @@
+<Files sekcia>
+ForceType application/x-httpd-php
+</Files>
+<Files clanok>
+ForceType application/x-httpd-php
+</Files>
+<Files image>
+ForceType application/x-httpd-php
+</Files>

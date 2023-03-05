@@ -1,0 +1,19 @@
+stages:
+  - build
+
+build:
+  image: docker:latest
+  stage: build
+  allow_failure: false
+  script:
+    - apk add jq curl
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build -t "${CI_REGISTRY_IMAGE}/${CI_PROJECT_NAME}:latest" .
+    - docker tag "${CI_REGISTRY_IMAGE}/${CI_PROJECT_NAME}:latest" "${CI_REGISTRY_IMAGE}/${CI_PROJECT_NAME}:${CI_COMMIT_SHORT_SHA}"
+    - docker push "${CI_REGISTRY_IMAGE}/${CI_PROJECT_NAME}:${CI_COMMIT_SHORT_SHA}"
+    - docker push "${CI_REGISTRY_IMAGE}/${CI_PROJECT_NAME}:latest"
+
+    - docker build -f ./Dockerfile-sql -t "${CI_REGISTRY_IMAGE}/sql:latest" .
+    - docker tag "${CI_REGISTRY_IMAGE}/sql:latest" "${CI_REGISTRY_IMAGE}/sql:${CI_COMMIT_SHORT_SHA}"
+    - docker push "${CI_REGISTRY_IMAGE}/sql:${CI_COMMIT_SHORT_SHA}"
+    - docker push "${CI_REGISTRY_IMAGE}/sql:latest"

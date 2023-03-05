@@ -1,0 +1,65 @@
+<?
+
+  error_reporting(0);
+
+  include_once('admin/admin_functions.php');
+	
+  $path = explode('/', $_SERVER['PATH_INFO']);
+
+  $i = $path[count($path)-2];
+  $j = substr($path[count($path)-1], 0, -4);
+ 
+  
+//zobrazi foto, hehe
+if(0 < ($j)){
+	$id = $j;
+}else{
+	die;
+}
+
+if(0 < ($i)){
+	
+	if($i=='1'){		
+		$result = psw_mysql_query('SELECT image FROM clanok WHERE clanok_id = ' .$id);
+    	$img = $result->fetch_assoc();    
+		
+		$img = $img['image'];
+		header('Content-Disposition: inline; filename="image_'.$i.'_'.$id.'.jpg"');
+		header("Content-type: image/jpeg");
+		echo base64_decode($img);
+	}
+	
+	if($i=='2'){
+		$result = psw_mysql_query('SELECT image FROM odkaz WHERE odkaz_id = ' .$id);
+    	$img = $result->fetch_assoc();
+		
+		$img = $img['image'];
+		header('Content-Disposition: inline; filename="image_'.$i.'_'.$id.'.jpg"');
+		header("Content-type: image/jpeg");
+		echo base64_decode($img);
+	}
+	if($i=='3'){
+		$result = psw_mysql_query('SELECT thumb FROM partylist WHERE partylist_id = ' .$id);
+    	$img = $result->fetch_assoc();
+    	
+		
+		$img = $img['thumb'];
+		header('Content-Disposition: inline; filename="image_'.$i.'_'.$id.'.jpg"');
+		header("Content-type: image/jpeg");
+		echo base64_decode($img);
+	}
+	if($i=='4'){
+		$result = psw_mysql_query('SELECT poster FROM partylist WHERE partylist_id = ' .$id);
+    	$img = $result->fetch_assoc();
+    	
+		$img = $img['poster'];
+		header('Content-Disposition: inline; filename="image_'.$i.'_'.$id.'.jpg"');
+		header("Content-type: image/jpeg");
+		echo base64_decode($img);
+	}
+	
+} else {
+	die;
+}
+
+?>
